@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+</head>
+<body class="h-screen overflow-hidden flex items-center justify-center"
+style="background: #edf2f7;"
+data-controller="chat"
+data-chat-jokes-value="<%= @jokes.to_json %>"
+data-chat-state-value="<%= @state %>">
+    <div class="fixed bottom-0 right-0 mb-4 mr-4" data-chat-target="button">
+        <button id="open-chat" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300 flex items-center"
+        data-action="click->chat#open">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Chat with Funny Bot
+        </button>
+    </div>
+    <div id="chat-container" class="fixed bottom-16 hidden right-4 w-96" data-chat-target="conversation">
+        <div class="bg-white shadow-md rounded-lg max-w-lg w-full">
+            <div class="p-4 border-b bg-blue-500 text-white rounded-t-lg flex justify-between items-center">
+                <p class="text-lg font-semibold">Funny Bot</p>
+                <button id="close-chat" class="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400"
+                data-action="click->chat#close">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="chatbox" class="p-4 h-80 overflow-y-auto" data-chat-target="messages">
+              <!-- Chat messages will be displayed here -->
+            </div>
+
+            <%= form_with data: { action: "chat#sendMessage"} do |form| %>
+              <div class="p-4 border-t flex">
+                <%= form.text_field :message, id: 'user-input',
+                placeholder: 'Type a message',
+                class: "w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+                data: { chat_target: "userMessage" } %>
+                <%= form.submit 'Send', class: "bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 transition duration-300"%>
+              </div>
+            <% end %>
+        </div>
+    </div>
+</body>
+</html>
