@@ -91,7 +91,6 @@ export default class extends Controller {
       this.#continuePlaying()
     }
     else if (message === 'no') {
-      console.log("END")
       this.stateValue = "end"
       this.#endChat()
     }
